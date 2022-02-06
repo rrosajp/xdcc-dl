@@ -35,7 +35,7 @@ def prepare_packs(packs: List[XDCCPack], location: Optional[str]):
         else:
             # Generate unique names for each pack file
             for i, pack in enumerate(packs):
-                pack.set_filename(location + "-" + str(i).zfill(3), True)
+                pack.set_filename(f'{location}-' + str(i).zfill(3), True)
 
 
 def add_xdcc_argparse_arguments(parser: ArgumentParser):

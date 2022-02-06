@@ -80,7 +80,7 @@ class XDCCPack(object):
         if self.filename and len(filename.split(".")) > 1 and not override:
             extension = filename.rsplit(".", 1)[1]
             if not self.filename.endswith(extension):
-                self.filename += "." + extension
+                self.filename += f'.{extension}'
 
         if not self.filename or override:
             self.filename = filename
@@ -161,7 +161,7 @@ class XDCCPack(object):
         :return: The generated message string
         """
         if full:
-            return "/msg " + self.bot + " xdcc send #" + str(self.packnumber)
+            return f'/msg {self.bot} xdcc send #' + str(self.packnumber)
         else:
             return "xdcc send #" + str(self.packnumber)
 

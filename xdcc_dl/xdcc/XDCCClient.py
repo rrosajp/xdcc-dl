@@ -127,7 +127,7 @@ class XDCCClient(SimpleIRCClient):
                 limit = "\"unlimited\""
             else:
                 limit = str(self.download_limit)
-            self.logger.info("Download Limit set to: " + limit)
+            self.logger.info(f'Download Limit set to: {limit}')
 
         self.timeout_watcher_thread = Thread(target=self.timeout_watcher)
         self.progress_printer_thread = Thread(target=self.progress_printer)
@@ -243,7 +243,7 @@ class XDCCClient(SimpleIRCClient):
 
         if not self.retry:
             dl_time = str(int(abs(time.time() - self.connect_start_time)))
-            self.logger.info("Download completed in " + dl_time + " seconds.")
+            self.logger.info(f'Download completed in {dl_time} seconds.')
 
         return self.pack.get_filepath()
 
@@ -296,7 +296,7 @@ class XDCCClient(SimpleIRCClient):
         self.logger.info("WHOIS: " + str(event.arguments))
         channels = event.arguments[1].split("#")
         channels.pop(0)
-        channels = list(map(lambda x: "#" + x.split(" ")[0], channels))
+        channels = list(map(lambda x: f'#{x.split(" ")[0]}', channels))
         self.channels = channels
 
         for channel in channels:
@@ -319,7 +319,7 @@ class XDCCClient(SimpleIRCClient):
             if self.fallback_channel is not None:
                 channel = self.fallback_channel
                 if not channel.startswith("#"):
-                    channel = "#" + channel
+                    channel = f'#{channel}'
                 conn.join(channel)
                 return
             else:
@@ -349,7 +349,7 @@ class XDCCClient(SimpleIRCClient):
                 "trying to send message anyways"
             )
         else:
-            self.logger.info("Joined Channel: " + event.target)
+            self.logger.info(f'Joined Channel: {event.target}')
 
         if not self.message_sent:
             self._send_xdcc_request_message(conn)
@@ -377,7 +377,7 @@ class XDCCClient(SimpleIRCClient):
             """
             self.xdcc_timestamp = time.time()
             mode = "ab" if append else "wb"
-            self.logger.info("Starting Download (" + mode + ")")
+            self.logger.info(f'Starting Download ({mode})')
             self.downloading = True
 
             self.xdcc_file = open(self.pack.get_filepath(), mode)
@@ -515,7 +515,7 @@ class XDCCClient(SimpleIRCClient):
         time.sleep(self.wait_time)
 
         msg = self.pack.get_request_message()
-        self.logger.info("Send XDCC Message: " + msg)
+        self.logger.info(f'Send XDCC Message: {msg}')
         self.message_sent = True
         conn.privmsg(self.pack.bot, msg)
 
@@ -616,11 +616,10 @@ class XDCCClient(SimpleIRCClient):
                 "timestamp": time.time(),
                 "progress": self.progress
             })
-            while len(speed_progress) > 0 \
-                    and time.time() - speed_progress[0]["timestamp"] > 7:
+            while speed_progress and time.time() - speed_progress[0]["timestamp"] > 7:
                 speed_progress.pop(0)
 
-            if len(speed_progress) > 0:
+            if speed_progress:
                 bytes_delta = self.progress - speed_progress[0]["progress"]
                 time_delta = time.time() - speed_progress[0]["timestamp"]
                 ratio = int(bytes_delta / time_delta)
@@ -645,7 +644,7 @@ class XDCCClient(SimpleIRCClient):
                 columns = int(_columns)
             except (ValueError, CalledProcessError):
                 columns = 80
-            log_message = log_message[0:columns]
+            log_message = log_message[:columns]
 
             pprint(log_message, end="\r", bg="lyellow", fg="black")
             time.sleep(0.1)

@@ -36,7 +36,7 @@ def find_subsplease_packs(search_phrase: str) -> List[XDCCPack]:
     search_query = search_phrase.replace(" ", "%20")
     search_query = search_query.replace("!", "%21")
 
-    url = "https://subsplease.org/xdcc/search.php?t=" + search_query
+    url = f'https://subsplease.org/xdcc/search.php?t={search_query}'
     scraper = cfscrape.create_scraper()
     response = scraper.get(url)
 
