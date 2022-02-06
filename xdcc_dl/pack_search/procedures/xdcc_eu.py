@@ -31,7 +31,7 @@ def find_xdcc_eu_packs(search_phrase: str) -> List[XDCCPack]:
 
     :return: the search results as a list of XDCCPack objects
     """
-    url = "https://www.xdcc.eu/search.php?searchkey=" + search_phrase
+    url = f'https://www.xdcc.eu/search.php?searchkey={search_phrase}'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     entries = soup.select("tr")

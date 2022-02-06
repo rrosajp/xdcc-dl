@@ -81,7 +81,11 @@ class SearchEngineType(Enum):
         :param name: The name of the search engine
         :return: The search engine object or None if no match was found
         """
-        for choice in cls:
-            if choice.value.name.lower() == name.lower():
-                return choice.value
-        return None
+        return next(
+            (
+                choice.value
+                for choice in cls
+                if choice.value.name.lower() == name.lower()
+            ),
+            None,
+        )

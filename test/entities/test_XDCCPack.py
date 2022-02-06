@@ -40,11 +40,8 @@ class XDCCPackTest(TestCase):
         for x in range(2, 6):
             self.assertEqual(_range[x - 2], XDCCPack(rizon, "Bot2", x))
 
-        i = 0
-        for x in range(6, 11, 2):
+        for i, x in enumerate(range(6, 11, 2)):
             self.assertEqual(range_step[i], XDCCPack(rizon, "Bot3", x))
-            i += 1
-
         commas_value = "11"
         for pack in commas:
             self.assertEqual(pack, XDCCPack(rizon, "Bot4", int(commas_value)))

@@ -36,7 +36,7 @@ class User(object):
                          using the names package.
                          An empty string will also result in a random username
         """
-        if username == "random" or username == "":
+        if username in {"random", ""}:
             self.username = \
                 names.get_first_name() + \
                 names.get_last_name() + \

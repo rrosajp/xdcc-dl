@@ -42,8 +42,8 @@ def main(args: argparse.Namespace):
                 result.get_request_message(True),
             )
             if result.server.address != "irc.rizon.net":
-                message = message[0:-1]
-                message += " --server " + result.server.address + ")"
+                message = message[:-1]
+                message += f' --server {result.server.address})'
             print(message)
     except ConnectionError:
         print("Connection Error, could not conduct search")
